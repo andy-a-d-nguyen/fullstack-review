@@ -15,12 +15,19 @@ app.post('/repos', function (req, res) {
   // This route should take the github username provided
   // and get the repo information from the github API, then
   // save the repo information in the database
-  console.log(req);
+
+  // console.log(req);
   res.send('Hello POST request');
 
   // use getReposByUsername to get repos
   // for each repo in response
     // use save to create a document and store in database
+  let username = req.body.username;
+  getReposByUsername(username, (user) => {
+    console.log(user.data);
+
+    let repos = user.data;
+  })
 });
 
 app.get('/repos', function (req, res) {
