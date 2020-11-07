@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import $ from 'jquery';
 import Search from './components/Search.jsx';
 import RepoList from './components/RepoList.jsx';
+import axios from 'axios';
 
 class App extends React.Component {
   constructor(props) {
@@ -14,11 +15,13 @@ class App extends React.Component {
   }
 
   search (term) {
-    console.log(`${term} was searched`);
+    console.log(`${term} was searched`, typeof term);
     // send ajax POST to /repos
+    var data = {username: term};
     $.ajax('/repos', {
       method: 'POST',
-      data: term,
+      data: JSON.stringify(data),
+      contentType: 'application/json',
       error: (req, err) => {
         console.log(err);
       },
@@ -26,6 +29,11 @@ class App extends React.Component {
         console.log(success);
       }
     })
+    // axios.post('/repos', {
+    //   username: term
+    // })
+    //   .then(res => {console.log(res)})
+    //   .catch(err => {console.log(err)});
   }
 
   render () {
