@@ -1,3 +1,5 @@
+const {getReposByUsername} = require('../helpers/github.js');
+const {save} = require('../database/index.js');
 const express = require('express');
 let app = express();
 
@@ -9,6 +11,10 @@ app.post('/repos', function (req, res) {
   // and get the repo information from the github API, then
   // save the repo information in the database
   res.send('Hello POST request');
+
+  // use getReposByUsername to get repos
+  // for each repo in response
+    // use save to create a document and store in database
 });
 
 app.get('/repos', function (req, res) {
