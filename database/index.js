@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/fetcher');
 // pending connection to the fetcher database running on localhost
+const testData = require('../datatest.js');
 
 const db = mongoose.connection;
 // create a connection / mongoose instance / connection constructor
@@ -45,5 +46,7 @@ let save = (repo) => {
     }
   });
 }
+
+save(testData[0]);
 
 module.exports.save = save;
