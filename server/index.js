@@ -1,5 +1,5 @@
 const {getReposByUsername} = require('../helpers/github.js');
-const {save} = require('../database/index.js');
+const {save, find} = require('../database/index.js');
 const express = require('express');
 const bodyParser = require('body-parser');
 let app = express();
@@ -17,14 +17,14 @@ app.post('/repos', function (req, res) {
   // save the repo information in the database
 
   // console.log(req);
-  res.send('Hello POST request');
+  // res.send('Hello POST request');
 
   // use getReposByUsername to get repos
   // for each repo in response
     // use save to create a document and store in database
   let username = req.body.username;
   getReposByUsername(username, (user) => {
-    console.log(user.data, '\n', typeof user.data);
+    // console.log(user.data, '\n', typeof user.data);
 
     let repos = user.data;
 
@@ -33,6 +33,8 @@ app.post('/repos', function (req, res) {
       save(repo); // the save method formats the data already so we only need to call it to save the data to the database
     });
   })
+
+  res.sendStatus(200);
 });
 
 app.get('/repos', function (req, res) {

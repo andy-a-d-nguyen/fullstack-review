@@ -47,6 +47,19 @@ let save = (repo) => {
   });
 }
 
+// create a method to find the top 25 repos sorted by forks count
+let find = () => {
+  Repo.find().sort({forksCount: -1}).limit(25).exec((err, data) => {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log(data);
+    }
+  });
+}
+
 // save(testData[0]);
+find();
 
 module.exports.save = save;
+module.exports.find = find;
