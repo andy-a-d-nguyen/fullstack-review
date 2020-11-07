@@ -47,6 +47,6 @@ let save = (repo) => {
   });
 }
 
-save(testData[0]);
+// save(testData[0]);
 
 module.exports.save = save;

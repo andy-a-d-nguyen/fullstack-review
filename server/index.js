@@ -24,9 +24,14 @@ app.post('/repos', function (req, res) {
     // use save to create a document and store in database
   let username = req.body.username;
   getReposByUsername(username, (user) => {
-    console.log(user.data);
+    console.log(user.data, '\n', typeof user.data);
 
     let repos = user.data;
+
+    repos.forEach(repo => {
+
+      save(repo); // the save method formats the data already so we only need to call it to save the data to the database
+    });
   })
 });
 
