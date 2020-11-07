@@ -15,7 +15,7 @@ class App extends React.Component {
   }
 
   search (term) {
-    console.log(`${term} was searched`, typeof term);
+    console.log(`${term} was searched and is of type: `, typeof term);
     // send ajax POST to /repos
     var data = {username: term};
     $.ajax('/repos', {
@@ -25,8 +25,23 @@ class App extends React.Component {
       error: (req, err) => {
         console.log(err);
       },
-      success: (res, success, req) => {
-        console.log(success);
+      success: (res, status, req) => {
+        console.log('ajax POST status: ', status);
+        $.ajax('/repos', {
+          type: 'GET',
+          data: JSON.stringify(data),
+          contentType: 'application/json',
+          error: (req, err) => {
+            console.log(err);
+          },
+          success: (res, status, req) => {
+            console.log('ajax GET status: ', status);
+            this.setState({
+              repos: res
+            })
+            console.log(this.state);
+          }
+        });
       }
     })
     // axios.post('/repos', {
