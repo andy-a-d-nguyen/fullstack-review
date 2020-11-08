@@ -10,14 +10,22 @@ const RepoList = (props) => {
     <div>
       <h4> Repo List Component </h4>
       There are {props.repos.length} repos.
-      <ul>
+      <table>
+        <tbody>
         {repos.map((repo, index) => {
           console.log('rendering each repo', repo);
           return (
-            <li key = {index}>{repo.name}</li>
+            <tr>
+              <td>{repo.fullName}</td>
+              <td><a href = {repo.url}>{repo.name}</a></td>
+              <td>{repo.owner}</td>
+              <td>{repo.createdAt}</td>
+              <td>{repo.forksCount}</td>
+            </tr>
           )
         })}
-      </ul>
+        </tbody>
+      </table>
     </div>
   )
 }
