@@ -9,41 +9,56 @@ class App extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      repos: []
+      repos: [],
+      username: ''
     }
 
+  }
+
+  componentDidMount() {
+
+  }
+
+  renderRepos(term) {
+    this.setState({
+      username: term
+    })
+    $.ajax('/repos', {
+      type: 'GET',
+      data: term,
+      contentType: 'application/text',
+      error: (req, err) => {
+        console.log('ajax get error' ,err);
+      },
+      success: (res) => {
+        console.log('ajax get response', res);
+        // console.log('ajax GET status: ', status);
+        this.setState({
+          repos: res
+        })
+        console.log(this.state);
+      }
+    });
   }
 
   search (term) {
     console.log(`${term} was searched and is of type: `, typeof term);
     // send ajax POST to /repos
+
     var data = {username: term};
-    $.ajax('/repos', {
-      method: 'POST',
-      data: JSON.stringify(data),
-      contentType: 'application/json',
-      error: (req, err) => {
-        console.log(err);
-      },
-      success: (res, status, req) => {
-        console.log('ajax POST status: ', status);
-        $.ajax('/repos', {
-          type: 'GET',
-          data: JSON.stringify(data),
-          contentType: 'application/json',
-          error: (req, err) => {
-            console.log(err);
-          },
-          success: (res, status, req) => {
-            console.log('ajax GET status: ', status);
-            this.setState({
-              repos: res
-            })
-            console.log(this.state);
-          }
-        });
-      }
-    })
+    if (term !== this.state.username) {
+      $.ajax('/repos', {
+        method: 'POST',
+        data: JSON.stringify(data),
+        contentType: 'application/json',
+        error: (req, err) => {
+          console.log(err);
+        },
+        success: (res, status, req) => {
+          console.log('ajax POST status: ', status);
+        }
+      })
+    }
     // axios.post('/repos', {
     //   username: term
     // })
@@ -55,7 +70,7 @@ class App extends React.Component {
     return (<div>
       <h1>Github Fetcher</h1>
       <RepoList repos={this.state.repos}/>
-      <Search onSearch={this.search.bind(this)}/>
+      <Search onSearch={this.search.bind(this)} render={this.renderRepos.bind(this)}/>
     </div>)
   }
 }

@@ -40,7 +40,15 @@ app.post('/repos', function (req, res) {
 app.get('/repos', function (req, res) {
   // TODO - your code here!
   // This route should send back the top 25 repos
-  res.send('Hello GET request');
+
+  let username = Object.keys(req.query)[0];
+  find(username, (err, result) => {
+    if (err) {
+      console.log(err);
+    } else {
+      res.status(200).send(result);
+    }
+  })
 });
 
 let port = 1128;
