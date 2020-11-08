@@ -12,14 +12,14 @@ class App extends React.Component {
       repos: [],
       username: ''
     }
-
+    this.getRepos = this.getRepos.bind(this);
   }
 
   componentDidMount() {
-
+    this.getRepos;
   }
 
-  renderRepos(term) {
+  getRepos(term) {
     this.setState({
       username: term
     })
@@ -70,7 +70,7 @@ class App extends React.Component {
     return (<div>
       <h1>Github Fetcher</h1>
       <RepoList repos={this.state.repos}/>
-      <Search onSearch={this.search.bind(this)} render={this.renderRepos.bind(this)}/>
+      <Search onSearch={this.search.bind(this)} getRepos={this.getRepos}/>
     </div>)
   }
 }
